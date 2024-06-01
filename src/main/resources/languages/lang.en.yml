@@ -1,0 +1,34 @@
+player_not_found: "&red&No player found for &yellow&%player%&red&!"
+storeitems_gui_opened: "&green&Transfer GUI opened!"
+getitems_gui_opened: "&green&Transfer Receive GUI opened!"
+gui:
+  confirm:
+    title: "Transfer items to Freebuild?"
+    confirm: |-
+      [WARNING!](red bold)
+      
+      Items that have been added to the next chest inventory
+      cannot be removed again once added to it!
+      
+      They can only be retrieved via the transfer box on
+      the Freebuild-Server!
+      
+      [Confirm](green bold)
+    cancel: |-
+      [Abort](red bold)
+    cancelled: "[Abgebrochen](red)"
+  store:
+    title: "Add items to transfer to Freebuild"
+    done: "&yellow&%amount% &green&items prepared for transfer to Freebuild!"
+    error: "&red&Error while preparing items for transfer to Freebuild! Contact an admin!"
+  get:
+    title: "Take items"
+    no_items: "&red&No items to take!"
+    full_inventory: "&red&Your inventory is full!"
+    error: "&red&Error while taking items! Contact an admin!"
+    previous: "Previous Page"
+    next: "Next Page"
+    data_version_mismatch: |-
+      %item%
+      &red&Can't be taken as it's from
+      &red&a newer version of the game!

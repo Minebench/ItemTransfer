@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>de.minebench</groupId>
+	<artifactId>itemtransfer</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>ItemTransfer</name>
+
+	<description>Save items to a database and allow getting them again</description>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<minecraft.plugin.version>${project.version} ${buildDescription}</minecraft.plugin.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<minecraft.plugin.license>GPLv3+</minecraft.plugin.license>
+		<minecraft.plugin.license-terms>
+			${project.name} - ${project.description}
+			Copyright (c) 2024 Max Lee aka Phoenix616 (max@themoep.de)
+
+			This program is free software: you can redistribute it and/or modify
+			it under the terms of the GNU Affero General Public License as published by
+			the Free Software Foundation, either version 3 of the License, or
+			(at your option) any later version.
+
+			This program is distributed in the hope that it will be useful,
+			but WITHOUT ANY WARRANTY; without even the implied warranty of
+			MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+			GNU Affero General Public License for more details.
+
+			You should have received a copy of the GNU Affero General Public License
+			along with this program.  If not, see https://www.gnu.org/licenses/.
+		</minecraft.plugin.license-terms>
+	</properties>
+
+	<licenses>
+		<license>
+			<name>AGPL-3.0-or-later</name>
+			<url>https://phoenix616.dev/licenses/agpl-v3.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:https://github.com/Minebench/ItemTransfer.git</connection>
+		<developerConnection>scm:git:ssh://github.com/Minebench/ItemTransfer</developerConnection>
+		<tag>HEAD</tag>
+		<url>https://github.com/Minebench/ItemTransfer</url>
+	</scm>
+
+	<repositories>
+		<repository>
+			<id>papermc-repo</id>
+			<url>https://repo.papermc.io/repository/maven-public/</url>
+		</repository>
+		<repository>
+			<id>minebench-repo</id>
+			<url>https://repo.minebench.de/</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>io.papermc.paper</groupId>
+			<artifactId>paper-api</artifactId>
+			<version>1.20.4-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.themoep</groupId>
+			<artifactId>bukkitplugin</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.themoep</groupId>
+			<artifactId>inventorygui</artifactId>
+			<version>1.6.2-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.themoep</groupId>
+			<artifactId>minedown-adventure</artifactId>
+			<version>1.7.2-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>de.themoep.utils</groupId>
+			<artifactId>lang-bukkit</artifactId>
+			<version>1.3-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>5.0.1</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>2.0.5</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.4.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<createDependencyReducedPom>false</createDependencyReducedPom>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<relocations>
+						<relocation>
+							<pattern>de.themoep.bukkitplugin</pattern>
+							<shadedPattern>${groupId}.${artifactId}.lib.bukkitplugin</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>de.themoep.inventorygui</pattern>
+							<shadedPattern>${groupId}.${artifactId}.lib.inventorygui</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>de.themoep.utils.lang</pattern>
+							<shadedPattern>${groupId}.${artifactId}.lib.lang</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>de.themoep.minedown.adventure</pattern>
+							<shadedPattern>${groupId}.${artifactId}.lib.minedown</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.slf4j</pattern>
+							<shadedPattern>${groupId}.${artifactId}.lib.slf4j</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>com.zaxxer.hikari</pattern>
+							<shadedPattern>${groupId}.${artifactId}.lib.hikari</shadedPattern>
+						</relocation>
+					</relocations>
+				</configuration>
+			</plugin>
+		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>static_build_number</id>
+			<activation>
+				<property>
+					<name>!env.BUILD_NUMBER</name>
+				</property>
+			</activation>
+			<properties>
+				<buildNumber>0</buildNumber>
+				<buildDescription>(compiled at ${maven.build.timestamp})</buildDescription>
+			</properties>
+		</profile>
+		<profile>
+			<id>dynamic_build_number</id>
+			<activation>
+				<property>
+					<name>env.BUILD_NUMBER</name>
+				</property>
+			</activation>
+			<properties>
+				<buildNumber>${env.BUILD_NUMBER}</buildNumber>
+				<buildDescription>(build ${env.BUILD_NUMBER})</buildDescription>
+			</properties>
+		</profile>
+	</profiles>
+</project>

@@ -1,0 +1,34 @@
+player_not_found: "&red&Kein Spieler für &yellow&%player%&red& gefunden!"
+storeitems_gui_opened: "&green&Transfer-GUI geöffnet!"
+getitems_gui_opened: "&green&Transfer-Items-GUI geöffnet!"
+gui:
+  confirm:
+    title: "Items auf Freebuild transferieren?"
+    confirm: |-
+      [ACHTUNG!](red bold)
+      
+      Items die einmal in das nächste Kisteninventar gelegt
+      wurden können nicht wieder entfernt werden!
+      
+      Sie müssen über die Transfer-Box auf dem Freebuild-
+      Server entnommen werden!
+      
+      [Bestätigen](green bold)
+    cancel: |-
+      [Abbrechen](red bold)
+    cancelled: "[Abgebrochen](red)"
+  store:
+    title: "Items hinzufügen"
+    done: "&yellow&%amount% &green&Items für den Transfer auf den Freebuild-Server vorbereitet!"
+    error: "&red&Fehler beim Vorbereiten des Transfers! Kontaktiere einen Admin!"
+  get:
+    title: "Items entnehmen"
+    no_items: "&red&Keine Items zum Entnehmen!"
+    full_inventory: "&red&Dein Inventar ist voll!"
+    error: "&red&Fehler beim Entnehmen des Items! Kontaktiere einen Admin!"
+    previous: "Vorherige Seite"
+    next: "Nächste Seite"
+    data_version_mismatch: |-
+      %item%
+      &red&Kann nicht entnommen werden, da es aus
+      &red&einer neueren Version des Spiels stammt!
