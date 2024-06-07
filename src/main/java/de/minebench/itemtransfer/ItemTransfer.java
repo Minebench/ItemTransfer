@@ -46,11 +46,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.logging.Level;
 
@@ -78,8 +76,8 @@ public final class ItemTransfer extends BukkitPlugin {
 			= (itemMeta, lore) -> itemMeta.lore(lore.stream().map(MineDown::parse).toList());
 	private static final ItemStack ITEM_CONFIRM = createItem(Material.LIME_WOOL, 1);
 	private static final ItemStack ITEM_CANCEL = createItem(Material.RED_WOOL, 1);
-	private Set<BlockInfo> clickStore = new HashSet<>();
-	private Set<BlockInfo> clickGet = new HashSet<>();
+	private BlockInfoSet clickStore = new BlockInfoSet();
+	private BlockInfoSet clickGet = new BlockInfoSet();
 
 	private static ItemStack createItem(@NotNull Material material, int customModelData) {
 		ItemStack item = new ItemStack(material);
@@ -125,8 +123,8 @@ public final class ItemTransfer extends BukkitPlugin {
 		return true;
 	}
 
-	private Set<BlockInfo> loadBlocks(String key) {
-		Set<BlockInfo> blocks = new HashSet<>();
+	private BlockInfoSet loadBlocks(String key) {
+		BlockInfoSet blocks = new BlockInfoSet();
 		for (String blockString : getConfig().getStringList(key)) {
 			String[] parts = blockString.split(";");
 			if (parts.length != 4) {
@@ -138,8 +136,7 @@ public final class ItemTransfer extends BukkitPlugin {
 				if (world == null) {
 					getLogger().warning("Invalid world: " + parts[0] + " in " + key + " config " + blockString);
 				}
-				blocks.add(new BlockInfo(parts[0].toLowerCase(Locale.ROOT),
-						Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3])));
+				blocks.add(parts[0], Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
 			} catch (NumberFormatException e) {
 				getLogger().warning("Invalid " + key + " block string: " + blockString);
 			}
@@ -170,11 +167,11 @@ public final class ItemTransfer extends BukkitPlugin {
 	}
 
 	public boolean isStoreItemsBlock(Block block) {
-		return clickStore.contains(new BlockInfo(block));
+		return clickStore.contains(block);
 	}
 
 	public boolean isGetItemsBlock(Block block) {
-		return clickGet.contains(new BlockInfo(block));
+		return clickGet.contains(block);
 	}
 
 	private InventoryGui createGui(String title, String[] rows, GuiElement... elements) {
