@@ -17,7 +17,7 @@
 		<minecraft.plugin.version>${project.version} ${buildDescription}</minecraft.plugin.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
-		<minecraft.plugin.license>GPLv3+</minecraft.plugin.license>
+		<minecraft.plugin.license>AGPLv3+</minecraft.plugin.license>
 		<minecraft.plugin.license-terms>
   ${project.name} - ${project.description}
   Copyright (c) 2024 Max Lee aka Phoenix616 (max@themoep.de)
@@ -111,6 +111,22 @@
 	<build>
 		<finalName>${project.name}</finalName>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.4.1</version>
+				<configuration>
+					<forceCreation>true</forceCreation>
+					<archive>
+						<manifest>
+							<addDefaultEntries>true</addDefaultEntries>
+						</manifest>
+						<manifestEntries>
+							<paperweight-mappings-namespace>mojang</paperweight-mappings-namespace>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
