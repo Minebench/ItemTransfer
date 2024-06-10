@@ -108,13 +108,14 @@ public final class ItemTransfer extends BukkitPlugin {
 		String host = getConfig().getString("mysql.host");
 		int port = getConfig().getInt("mysql.port");
 		String database = getConfig().getString("mysql.database");
+		String tablePrefix = getConfig().getString("mysql.table-prefix");
 		String user = getConfig().getString("mysql.user");
 		String password = getConfig().getString("mysql.pass");
 
 		if (itemStorage != null) {
 			itemStorage.close();
 		}
-		itemStorage = new ItemStorage(this, host, port, database, user, password);
+		itemStorage = new ItemStorage(this, host, port, database, tablePrefix, user, password);
 
 		lang = new LanguageManager(this, getConfig().getString("default-locale"));
 

@@ -41,9 +41,11 @@ public class ItemStorage {
 
 	private final HikariDataSource dataSource;
 	private final BukkitPlugin plugin;
+	private final String tablePrefix;
 
-	public ItemStorage(@NotNull BukkitPlugin plugin, @NotNull String host, int port, @NotNull String database, @NotNull String user, @NotNull String password) {
+	public ItemStorage(@NotNull BukkitPlugin plugin, @NotNull String host, int port, @NotNull String database, @NotNull String tablePrefix, @NotNull String user, @NotNull String password) {
 		this.plugin = Objects.requireNonNull(plugin);
+		this.tablePrefix = tablePrefix;
 		// Create HikariCP data source
 		HikariConfig config = new HikariConfig();
 		config.setJdbcUrl("jdbc:mysql://" + Objects.requireNonNull(host) + ":" + port + "/" + Objects.requireNonNull(database));
@@ -57,7 +59,7 @@ public class ItemStorage {
 
 	private void createItemsTable() {
 		try (Connection connection = dataSource.getConnection();
-		     PreparedStatement statement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS items (" +
+		     PreparedStatement statement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS " + tablePrefix + "items (" +
 				     "id BIGINT AUTO_INCREMENT NOT NULL," +
 				     "player_uuid CHAR(36) NOT NULL," +
 				     "item_type VARCHAR(255) NOT NULL," +
@@ -82,7 +84,7 @@ public class ItemStorage {
 
 		plugin.runAsync(() -> {
 			try (Connection connection = dataSource.getConnection();
-			     PreparedStatement statement = connection.prepareStatement("INSERT INTO items (player_uuid, item_type, data_version, timestamp, item_data) VALUES (?, ?, ?, ?, ?)")) {
+			     PreparedStatement statement = connection.prepareStatement("INSERT INTO " + tablePrefix + "items (player_uuid, item_type, data_version, timestamp, item_data) VALUES (?, ?, ?, ?, ?)")) {
 				for (ItemStack item : items) {
 					statement.setString(1, playerUUID.toString());
 					statement.setString(2, item.getType().name());
@@ -111,7 +113,7 @@ public class ItemStorage {
 			Map<Long, StoredItem> storedItems = new LinkedHashMap<>();
 
 			try (Connection connection = dataSource.getConnection();
-			     PreparedStatement statement = connection.prepareStatement("SELECT item_type, data_version, timestamp, item_data FROM items WHERE player_uuid = ?")) {
+			     PreparedStatement statement = connection.prepareStatement("SELECT item_type, data_version, timestamp, item_data FROM " + tablePrefix + "items WHERE player_uuid = ?")) {
 				statement.setString(1, playerUUID.toString());
 				try (ResultSet resultSet = statement.executeQuery()) {
 					while (resultSet.next()) {
@@ -140,7 +142,7 @@ public class ItemStorage {
 
 		plugin.runAsync(() -> {
 			try (Connection connection = dataSource.getConnection();
-			     PreparedStatement statement = connection.prepareStatement("DELETE FROM items WHERE id = ?")) {
+			     PreparedStatement statement = connection.prepareStatement("DELETE FROM " + tablePrefix + "items WHERE id = ?")) {
 				statement.setLong(1, id);
 				future.complete(statement.executeUpdate() > 0);
 			} catch (SQLException e) {

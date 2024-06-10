@@ -5,4 +5,5 @@ mysql:
   user: user
   pass: password
   database: database
+  table-prefix: itemtransfer_
 default-locale: de
