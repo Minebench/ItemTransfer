@@ -60,6 +60,6 @@ public class StoreItemsCommand implements CommandExecutor {
 			plugin.openStoreItemsConfirmGui(target);
 		}
 		sender.sendMessage(plugin.getLang(sender, "storeitems_gui_opened"));
-		return false;
+		return true;
 	}
 }

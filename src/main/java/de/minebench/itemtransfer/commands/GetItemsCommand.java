@@ -60,6 +60,6 @@ public class GetItemsCommand implements CommandExecutor {
 			plugin.openGetItemsGui(target);
 		}
 		sender.sendMessage(plugin.getLang(sender, "getitems_gui_opened"));
-		return false;
+		return true;
 	}
 }
