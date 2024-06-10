@@ -31,6 +31,7 @@ import de.themoep.inventorygui.StaticGuiElement;
 import de.themoep.minedown.adventure.MineDown;
 import de.themoep.utils.lang.bukkit.LanguageManager;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -55,7 +56,7 @@ public final class ItemTransfer extends BukkitPlugin {
 
 	private static final String[] GUI_CONFIRM = {
 			"         ",
-			"  n   y  ",
+			"  y   n  ",
 			"         "
 	};
 	private static final String[] GUI_STORE = {
@@ -69,12 +70,14 @@ public final class ItemTransfer extends BukkitPlugin {
 			"sssssssss",
 			"p       n"
 	};
+	private static final Component BASE_COMPONENT = Component.empty().decoration(TextDecoration.ITALIC, false);
 	private static final BiConsumer<ItemMeta, String> ITEM_NAME_SETTER
-			= (itemMeta, name) -> itemMeta.displayName(MineDown.parse(name));
+			= (itemMeta, name) -> itemMeta.displayName(BASE_COMPONENT.append(MineDown.parse(name)));
 	private static final BiConsumer<ItemMeta, List<String>> ITEM_LORE_SETTER
-			= (itemMeta, lore) -> itemMeta.lore(lore.stream().map(MineDown::parse).toList());
+			= (itemMeta, lore) -> itemMeta.lore(lore.stream().map(s -> BASE_COMPONENT.append(MineDown.parse(s))).toList());
 	private static final ItemStack ITEM_CONFIRM = createItem(Material.LIME_WOOL, 1);
 	private static final ItemStack ITEM_CANCEL = createItem(Material.RED_WOOL, 1);
+	private static final ItemStack ITEM_FILLER = createItem(Material.BLACK_STAINED_GLASS_PANE, 1);
 	private BlockInfoSet clickStore = new BlockInfoSet();
 	private BlockInfoSet clickGet = new BlockInfoSet();
 
@@ -215,10 +218,11 @@ public final class ItemTransfer extends BukkitPlugin {
 		}, placeInfo -> true, takeInfo -> false));
 		gui.setCloseAction(close -> {
 			Collection<ItemStack> items = Arrays.stream(inventory.getContents()).filter(Objects::nonNull).toList();
+			final int itemAmount = items.stream().map(ItemStack::getAmount).reduce(0, Integer::sum);
 			itemStorage.storeItems(player.getUniqueId(), items)
 					.whenComplete((v, ex) -> {
 						if (ex == null) {
-							player.sendMessage(getLang(player, "gui.store.done"));
+							player.sendMessage(getLang(player, "gui.store.done", "amount", String.valueOf(itemAmount)));
 						} else {
 							player.sendMessage(getLang(player, "gui.store.error"));
 							getLogger().log(Level.SEVERE, "Failed to store items for " + player.getName(), ex);
@@ -295,7 +299,7 @@ public final class ItemTransfer extends BukkitPlugin {
 									}));
 								}
 								return group;
-							})).show(player);
+							})).filler(ITEM_FILLER).show(player);
 				});
 	}
 }

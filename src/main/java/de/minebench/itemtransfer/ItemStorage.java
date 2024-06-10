@@ -98,7 +98,7 @@ public class ItemStorage {
 				plugin.getLogger().log(Level.SEVERE, "Failed to store items", e);
 				future.completeExceptionally(new RuntimeException("Failed to store items", e));
 			}
-			future.complete(null);
+			plugin.runSync(() -> future.complete(null));
 		});
 
 		return future;
@@ -113,7 +113,7 @@ public class ItemStorage {
 			Map<Long, StoredItem> storedItems = new LinkedHashMap<>();
 
 			try (Connection connection = dataSource.getConnection();
-			     PreparedStatement statement = connection.prepareStatement("SELECT item_type, data_version, timestamp, item_data FROM " + tablePrefix + "items WHERE player_uuid = ?")) {
+			     PreparedStatement statement = connection.prepareStatement("SELECT id, item_type, data_version, timestamp, item_data FROM " + tablePrefix + "items WHERE player_uuid = ?")) {
 				statement.setString(1, playerUUID.toString());
 				try (ResultSet resultSet = statement.executeQuery()) {
 					while (resultSet.next()) {
@@ -131,7 +131,7 @@ public class ItemStorage {
 				future.completeExceptionally(new RuntimeException("Failed to retrieve stored items", e));
 			}
 
-			future.complete(storedItems);
+			plugin.runSync(() -> future.complete(storedItems));
 		});
 
 		return future;
@@ -144,7 +144,8 @@ public class ItemStorage {
 			try (Connection connection = dataSource.getConnection();
 			     PreparedStatement statement = connection.prepareStatement("DELETE FROM " + tablePrefix + "items WHERE id = ?")) {
 				statement.setLong(1, id);
-				future.complete(statement.executeUpdate() > 0);
+				int removed = statement.executeUpdate();
+				plugin.runSync(() -> future.complete(removed > 0));
 			} catch (SQLException e) {
 				plugin.getLogger().log(Level.SEVERE, "Failed to remove stored item", e);
 				future.completeExceptionally(new RuntimeException("Failed to remove stored item", e));
