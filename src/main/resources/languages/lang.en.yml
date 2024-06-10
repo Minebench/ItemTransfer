@@ -18,7 +18,7 @@ gui:
       [Abort](red bold)
     cancelled: "[Abgebrochen](red)"
   store:
-    title: "Add items to transfer to Freebuild"
+    title: "Add items to transfer"
     done: "&yellow&%amount% &green&items prepared for transfer to Freebuild!"
     error: "&red&Error while preparing items for transfer to Freebuild! Contact an admin!"
   get:

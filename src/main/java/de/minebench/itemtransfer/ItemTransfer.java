@@ -47,7 +47,6 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.logging.Level;
@@ -56,7 +55,7 @@ public final class ItemTransfer extends BukkitPlugin {
 
 	private static final String[] GUI_CONFIRM = {
 			"         ",
-			"   n  y  ",
+			"  n   y  ",
 			"         "
 	};
 	private static final String[] GUI_STORE = {
@@ -183,14 +182,14 @@ public final class ItemTransfer extends BukkitPlugin {
 	public void openStoreItemsConfirmGui(@NotNull Player player) {
 		Objects.requireNonNull(player);
 		createGui("gui.confirm.title", GUI_CONFIRM,
-				new StaticGuiElement('n', new ItemStack(Material.RED_WOOL), click -> {
+				new StaticGuiElement('n', ITEM_CANCEL, click -> {
 					click.getGui().close();
 					return true;
-				}),
-				new StaticGuiElement('y', new ItemStack(Material.GREEN_WOOL), click -> {
+				}, getRawLang(player, "gui.confirm.cancel")),
+				new StaticGuiElement('y', ITEM_CONFIRM, click -> {
 					openStoreItemsGui(player);
 					return true;
-				})
+				}, getRawLang(player, "gui.confirm.confirm"))
 		).show(player);
 	}
 
