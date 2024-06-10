@@ -1,3 +1,4 @@
+storage_not_initialized: "&red&Storage not initialized! Contact an admin!"
 player_not_found: "&red&No player found for &yellow&%player%&red&!"
 storeitems_gui_opened: "&green&Transfer GUI opened!"
 getitems_gui_opened: "&green&Transfer Receive GUI opened!"

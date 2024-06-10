@@ -161,10 +161,6 @@
 							<shadedPattern>${groupId}.${artifactId}.lib.minedown</shadedPattern>
 						</relocation>
 						<relocation>
-							<pattern>org.slf4j</pattern>
-							<shadedPattern>${groupId}.${artifactId}.lib.slf4j</shadedPattern>
-						</relocation>
-						<relocation>
 							<pattern>com.zaxxer.hikari</pattern>
 							<shadedPattern>${groupId}.${artifactId}.lib.hikari</shadedPattern>
 						</relocation>

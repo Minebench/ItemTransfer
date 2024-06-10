@@ -103,6 +103,7 @@ public final class ItemTransfer extends BukkitPlugin {
 
 	@Override
 	public boolean loadConfig() {
+		boolean success = true;
 		// Load configuration from config.yml
 		String host = getConfig().getString("mysql.host");
 		int port = getConfig().getInt("mysql.port");
@@ -114,13 +115,19 @@ public final class ItemTransfer extends BukkitPlugin {
 		if (itemStorage != null) {
 			itemStorage.close();
 		}
-		itemStorage = new ItemStorage(this, host, port, database, tablePrefix, user, password);
+		try {
+			itemStorage = new ItemStorage(this, host, port, database, tablePrefix, user, password);
+		} catch (Exception e) {
+			getLogger().log(Level.SEVERE, "Failed to initialize item storage", e);
+			itemStorage = null;
+			success = false;
+		}
 
 		lang = new LanguageManager(this, getConfig().getString("default-locale"));
 
 		clickStore = loadBlocks("click-blocks.store");
 		clickGet = loadBlocks("click-blocks.get");
-		return true;
+		return success;
 	}
 
 	private BlockInfoSet loadBlocks(String key) {
@@ -181,6 +188,10 @@ public final class ItemTransfer extends BukkitPlugin {
 
 	public void openStoreItemsConfirmGui(@NotNull Player player) {
 		Objects.requireNonNull(player);
+		if (itemStorage == null) {
+			player.sendMessage(getLang(player, "storage_not_initialized"));
+			return;
+		}
 		createGui("gui.confirm.title", GUI_CONFIRM,
 				new StaticGuiElement('n', ITEM_CANCEL, click -> {
 					click.getGui().close();
@@ -195,6 +206,10 @@ public final class ItemTransfer extends BukkitPlugin {
 
 	private void openStoreItemsGui(@NotNull Player player) {
 		Objects.requireNonNull(player);
+		if (itemStorage == null) {
+			player.sendMessage(getLang(player, "storage_not_initialized"));
+			return;
+		}
 		Inventory inventory = getServer().createInventory(null, InventoryType.CHEST);
 		InventoryGui gui = createGui("gui.store.title", GUI_STORE, new GuiStorageElement('s', inventory, -1, () -> {
 		}, placeInfo -> true, takeInfo -> false));
@@ -219,6 +234,10 @@ public final class ItemTransfer extends BukkitPlugin {
 
 	public void openGetItemsGui(@NotNull Player player) {
 		Objects.requireNonNull(player);
+		if (itemStorage == null) {
+			player.sendMessage(getLang(player, "storage_not_initialized"));
+			return;
+		}
 		itemStorage.getStoredItems(player.getUniqueId())
 				.whenComplete((storedItems, ex1) -> {
 					if (ex1 != null) {

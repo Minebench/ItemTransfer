@@ -60,17 +60,17 @@ public class ItemStorage {
 	private void createItemsTable() {
 		try (Connection connection = dataSource.getConnection();
 		     PreparedStatement statement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS " + tablePrefix + "items (" +
-				     "id BIGINT AUTO_INCREMENT NOT NULL," +
+				     "id BIGINT AUTO_INCREMENT PRIMARY KEY," +
 				     "player_uuid CHAR(36) NOT NULL," +
 				     "item_type VARCHAR(255) NOT NULL," +
 				     "data_version INT NOT NULL," +
 				     "timestamp BIGINT NOT NULL," +
 				     "item_data BLOB NOT NULL," +
-				     "INDEX player_uuid," +
-				     "PRIMARY KEY (id))")) {
+				     "INDEX (player_uuid)" +
+				     ")")) {
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			plugin.getLogger().log(Level.SEVERE, "Failed to create items table", e);
+			throw new RuntimeException("Failed to create items table", e);
 		}
 	}
 

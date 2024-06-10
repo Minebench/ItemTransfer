@@ -1,3 +1,4 @@
+storage_not_initialized: "&red&Speicher nicht initialisiert! Kontaktiere einen Admin!"
 player_not_found: "&red&Kein Spieler für &yellow&%player%&red& gefunden!"
 storeitems_gui_opened: "&green&Transfer-GUI geöffnet!"
 getitems_gui_opened: "&green&Transfer-Items-GUI geöffnet!"
