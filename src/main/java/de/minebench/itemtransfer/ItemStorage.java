@@ -67,7 +67,7 @@ public class ItemStorage {
 				     "timestamp BIGINT NOT NULL," +
 				     "item_data BLOB NOT NULL," +
 				     "INDEX player_uuid," +
-				     "PRIMARY KEY (player_uuid, item_type, data_version, timestamp))")) {
+				     "PRIMARY KEY (id))")) {
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			plugin.getLogger().log(Level.SEVERE, "Failed to create items table", e);
