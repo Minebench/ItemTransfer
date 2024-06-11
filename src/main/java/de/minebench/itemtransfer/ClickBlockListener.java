@@ -33,11 +33,13 @@ public class ClickBlockListener implements Listener {
 	public void onBlockClick(PlayerInteractEvent event) {
 		if (event.getPlayer().hasPermission("itemtransfer.click.storeitems")) {
 			if (plugin.isStoreItemsBlock(event.getClickedBlock())) {
+			event.setCancelled(true);
 				plugin.openStoreItemsConfirmGui(event.getPlayer());
 			}
 		}
 		if (event.getPlayer().hasPermission("itemtransfer.click.getitems")) {
 			if (plugin.isGetItemsBlock(event.getClickedBlock())) {
+				event.setCancelled(true);
 				plugin.openGetItemsGui(event.getPlayer());
 			}
 		}
