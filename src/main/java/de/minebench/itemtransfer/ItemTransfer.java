@@ -75,9 +75,9 @@ public final class ItemTransfer extends BukkitPlugin {
 			= (itemMeta, name) -> itemMeta.displayName(BASE_COMPONENT.append(MineDown.parse(name)));
 	private static final BiConsumer<ItemMeta, List<String>> ITEM_LORE_SETTER
 			= (itemMeta, lore) -> itemMeta.lore(lore.stream().map(s -> BASE_COMPONENT.append(MineDown.parse(s))).toList());
-	private static final ItemStack ITEM_CONFIRM = createItem(Material.LIME_WOOL, 1);
-	private static final ItemStack ITEM_CANCEL = createItem(Material.RED_WOOL, 1);
-	private static final ItemStack ITEM_FILLER = createItem(Material.BLACK_STAINED_GLASS_PANE, 1);
+	private static final ItemStack ITEM_CONFIRM = createItem(Material.LIME_WOOL, 1001);
+	private static final ItemStack ITEM_CANCEL = createItem(Material.RED_WOOL, 1001);
+	private static final ItemStack ITEM_FILLER = createItem(Material.BLACK_STAINED_GLASS_PANE, 1001);
 	private BlockInfoSet clickStore = new BlockInfoSet();
 	private BlockInfoSet clickGet = new BlockInfoSet();
 
