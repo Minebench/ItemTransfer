@@ -18,6 +18,7 @@ package de.minebench.itemtransfer;
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -31,14 +32,19 @@ public class ClickBlockListener implements Listener {
 
 	@EventHandler
 	public void onBlockClick(PlayerInteractEvent event) {
+		Block block = event.getClickedBlock();
+		if (block == null) {
+			return;
+		}
+
 		if (event.getPlayer().hasPermission("itemtransfer.click.storeitems")) {
-			if (plugin.isStoreItemsBlock(event.getClickedBlock())) {
+			if (plugin.isStoreItemsBlock(block)) {
 			event.setCancelled(true);
 				plugin.openStoreItemsConfirmGui(event.getPlayer());
 			}
 		}
 		if (event.getPlayer().hasPermission("itemtransfer.click.getitems")) {
-			if (plugin.isGetItemsBlock(event.getClickedBlock())) {
+			if (plugin.isGetItemsBlock(block)) {
 				event.setCancelled(true);
 				plugin.openGetItemsGui(event.getPlayer());
 			}

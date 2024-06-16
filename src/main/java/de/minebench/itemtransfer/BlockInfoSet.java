@@ -37,6 +37,9 @@ public class BlockInfoSet {
 	}
 
 	public boolean contains(Block block) {
+		if (block == null) {
+			return false;
+		}
 		Map<Integer, Table<Integer, Integer, Boolean>> table = blockInfoMap.get(block.getWorld().getName().toLowerCase(Locale.ROOT));
 		if (table == null) {
 			return false;
