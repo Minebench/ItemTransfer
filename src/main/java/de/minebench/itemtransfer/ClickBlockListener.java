@@ -22,6 +22,7 @@ import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 
 public class ClickBlockListener implements Listener {
 	private final ItemTransfer plugin;
@@ -39,14 +40,18 @@ public class ClickBlockListener implements Listener {
 
 		if (event.getPlayer().hasPermission("itemtransfer.click.storeitems")) {
 			if (plugin.isStoreItemsBlock(block)) {
-			event.setCancelled(true);
-				plugin.openStoreItemsConfirmGui(event.getPlayer());
+				event.setCancelled(true);
+				if (event.getHand() == EquipmentSlot.HAND) {
+					plugin.openStoreItemsConfirmGui(event.getPlayer());
+				}
 			}
 		}
 		if (event.getPlayer().hasPermission("itemtransfer.click.getitems")) {
 			if (plugin.isGetItemsBlock(block)) {
 				event.setCancelled(true);
-				plugin.openGetItemsGui(event.getPlayer());
+				if (event.getHand() == EquipmentSlot.HAND) {
+					plugin.openGetItemsGui(event.getPlayer());
+				}
 			}
 		}
 	}
