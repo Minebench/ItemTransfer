@@ -142,11 +142,16 @@ public final class ItemTransfer extends BukkitPlugin {
 				continue;
 			}
 			try {
-				World world = Bukkit.getWorld(parts[0]);
+				String worldName = parts[0];
+				World world = Bukkit.getWorld(worldName);
 				if (world == null) {
-					getLogger().warning("Invalid world: " + parts[0] + " in " + key + " config " + blockString);
+					getLogger().warning("Invalid world: " + worldName + " in " + key + " config " + blockString);
 				}
-				blocks.add(parts[0], Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
+				int x = Integer.parseInt(parts[1]);
+				int y = Integer.parseInt(parts[2]);
+				int z = Integer.parseInt(parts[3]);
+				blocks.add(worldName, x, y, z);
+				getLogger().info("Added block " + worldName + " " + x + " " + y + " " + z + " to " + key);
 			} catch (NumberFormatException e) {
 				getLogger().warning("Invalid " + key + " block string: " + blockString);
 			}
