@@ -2,6 +2,7 @@ name: ItemTransfer
 version: '${minecraft.plugin.version}'
 main: de.minebench.itemtransfer.ItemTransfer
 api-version: 1.19
+softdepend: [OpenInv]
 authors: [ Phoenix616 ]
 description: '${project.description}'
 source: "${project.scm.url}"
@@ -24,10 +25,18 @@ commands:
     description: Get stored items
     permission: itemtransfer.command.getitems
     aliases: [getitem]
+  storeallplayers:
+    usage: /<command>
+    description: Store items for all players
+    permission: itemtransfer.command.storeallplayers
+    aliases: [storeplayers]
 permissions:
   itemtransfer.command:
     default: true
     description: Plugin command permission
+  itemtransfer.command.info:
+    default: true
+    description: Permission to view plugin information
   itemtransfer.command.reload:
     default: op
     description: Permission to the reload command
@@ -49,3 +58,6 @@ permissions:
   itemtransfer.click.getitems:
     default: op
     description: Permission to click a block to open a gui to get the items
+  itemtransfer.click.storeallplayers:
+    default: op
+    description: Permission to store items for all players

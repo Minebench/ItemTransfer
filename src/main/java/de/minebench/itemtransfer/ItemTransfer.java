@@ -19,6 +19,7 @@ package de.minebench.itemtransfer;
  */
 
 import de.minebench.itemtransfer.commands.GetItemsCommand;
+import de.minebench.itemtransfer.commands.StoreAllPlayersCommand;
 import de.minebench.itemtransfer.commands.StoreItemsCommand;
 import de.themoep.bukkitplugin.BukkitPlugin;
 import de.themoep.inventorygui.DynamicGuiElement;
@@ -37,6 +38,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
@@ -100,6 +102,15 @@ public final class ItemTransfer extends BukkitPlugin {
 
 		getCommand("storeitems").setExecutor(new StoreItemsCommand(this));
 		getCommand("getitems").setExecutor(new GetItemsCommand(this));
+		PluginCommand storeAllPlayersCommand = getCommand("storeallplayers");
+		if (getServer().getPluginManager().getPlugin("Openinv") != null) {
+			storeAllPlayersCommand.setExecutor(new StoreAllPlayersCommand(this));
+		} else {
+			storeAllPlayersCommand.setExecutor((sender, command, label, args) -> {
+				sender.sendMessage(getLang(sender, "openinv_not_found"));
+				return true;
+			});
+		}
 
 		getServer().getPluginManager().registerEvents(new ClickBlockListener(this), this);
 	}
@@ -163,6 +174,10 @@ public final class ItemTransfer extends BukkitPlugin {
 	public void onDisable() {
 		// Close the item storage
 		itemStorage.close();
+	}
+
+	public ItemStorage getItemStorage() {
+		return itemStorage;
 	}
 
 	public @NotNull String getRawLang(CommandSender sender, @NotNull String key, @NotNull String... replacements) {

@@ -1,8 +1,7 @@
 package de.minebench.itemtransfer.commands;
 
-
 /*
- * itemtransfer
+ * ItemTransfer
  * Copyright (c) 2024 Max Lee aka Phoenix616 (max@themoep.de)
  *
  * This program is free software: you can redistribute it and/or modify

@@ -1,4 +1,5 @@
 storage_not_initialized: "&red&Speicher nicht initialisiert! Kontaktiere einen Admin!"
+openinv_not_found: "&red&Dieser Befehl erfordert OpenInv!"
 player_not_found: "&red&Kein Spieler für &yellow&%player%&red& gefunden!"
 storeitems_gui_opened: "&green&Transfer-GUI geöffnet!"
 getitems_gui_opened: "&green&Transfer-Items-GUI geöffnet!"
@@ -33,3 +34,9 @@ gui:
       %item%
       &red&Kann nicht entnommen werden, da es aus
       &red&einer neueren Version des Spiels stammt!
+storeallplayers:
+  started: "&green&Beginne Items für alle Spieler zu speichern..."
+  finished: "&green&Fertig mit dem Speichern von Items für [%count%](yellow) Spieler!"
+  stored: "&green&[%count%](yellow) Items für [%player%](yellow) gespeichert!"
+  no_players: "&red&Keine Spieler gefunden!"
+  failed: "&red&Fehler beim Speichern von Items für [%player%](yellow)!"

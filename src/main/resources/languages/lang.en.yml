@@ -1,4 +1,5 @@
 storage_not_initialized: "&red&Storage not initialized! Contact an admin!"
+openinv_not_found: "&red&This command requires OpenInv to be installed!"
 player_not_found: "&red&No player found for &yellow&%player%&red&!"
 storeitems_gui_opened: "&green&Transfer GUI opened!"
 getitems_gui_opened: "&green&Transfer Receive GUI opened!"
@@ -33,3 +34,9 @@ gui:
       %item%
       &red&Can't be taken as it's from
       &red&a newer version of the game!
+storeallplayers:
+  started: "&green&Started storing items for all players..."
+  finished: "&green&Finished storing items for [%count%](yellow) players!"
+  stored: "&green&Stored [%count%](yellow) items for [%player%](yellow)!"
+  no_players: "&red&No players found!"
+  failed: "&red&Failed to store items for [%player%](yellow)!"

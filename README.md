@@ -5,7 +5,28 @@ This is a simple plugin that allows you to transfer items between locations or s
 
 ## Commands and Permissions
 
-TODO
+| Command                | Permission                               | Description                        |
+|------------------------|------------------------------------------|------------------------------------|
+| `/itemtransfer`        | `itemtransfer.command`                   | Main plugin command                |
+| `/itemtransfer info`   | `itemtransfer.command.info`              | View info about the plugin         |
+| `/itemtransfer reload` | `itemtransfer.command.reload`            | Reload the plugin config           |
+| `/storeitems`          | `itemtransfer.command.storeitems`        | Store items                        |
+| `/storeitems <player>` | `itemtransfer.command.storeitems.others` | Store items for other players      |
+| `/getitems`            | `itemtransfer.command.getitems`          | Get stored items                   |
+| `/getitems <player>`   | `itemtransfer.command.getitems.others`   | Get stored items for other players |
+| `/storeallplayers`     | `itemtransfer.command.storeallplayers`   | Store items for all players        |
+
+**Permissions:**
+
+- `itemtransfer.command`: Plugin command permission (default: true)
+- `itemtransfer.command.reload`: Permission to the reload command (default: op)
+- `itemtransfer.command.storeitems`: Permission to store items (default: op)
+- `itemtransfer.command.storeitems.others`: Permission to store items for others (default: op)
+- `itemtransfer.command.getitems`: Permission to get items (default: op)
+- `itemtransfer.command.getitems.others`: Permission to get items for others (default: op)
+- `itemtransfer.click.storeitems`: Permission to click a block to open a gui to store items (default: op)
+- `itemtransfer.click.getitems`: Permission to click a block to open a gui to get the items (default: op)
+- `itemtransfer.click.storeallplayers`: Permission to store items for all players (default: op)
 
 ## Downloads
 
