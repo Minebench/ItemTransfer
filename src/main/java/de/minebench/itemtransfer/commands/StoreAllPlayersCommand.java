@@ -108,6 +108,7 @@ public class StoreAllPlayersCommand implements CommandExecutor {
 			player.getInventory().clear();
 			player.getInventory().setArmorContents(new ItemStack[4]);
 			player.getEnderChest().clear();
+			player.saveData();
 			openInv.releasePlayer(player, plugin);
 		}).exceptionally(throwable -> {
 			plugin.getLogger().log(Level.SEVERE, count + " | " + left + " | Failed to store items for " + playerName, throwable);
