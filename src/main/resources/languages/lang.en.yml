@@ -35,8 +35,8 @@ gui:
       &red&Can't be taken as it's from
       &red&a newer version of the game!
 storeallplayers:
-  started: "&green&Started storing items for all players..."
+  started: "&green&Started storing items for [%count%](yellow) players..."
   finished: "&green&Finished storing items for [%count%](yellow) players!"
-  stored: "&green&Stored [%count%](yellow) items for [%player%](yellow)!"
+  progress: "&green&[%count%](yellow) players stored, [%left%](yellow) remaining..."
   no_players: "&red&No players found!"
   failed: "&red&Failed to store items for [%player%](yellow)!"

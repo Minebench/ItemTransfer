@@ -35,8 +35,8 @@ gui:
       &red&Kann nicht entnommen werden, da es aus
       &red&einer neueren Version des Spiels stammt!
 storeallplayers:
-  started: "&green&Beginne Items für alle Spieler zu speichern..."
-  finished: "&green&Fertig mit dem Speichern von Items für [%count%](yellow) Spieler!"
-  stored: "&green&[%count%](yellow) Items für [%player%](yellow) gespeichert!"
+  started: "&green&Beginne Items für [%count%](yellow) Spieler zu speichern..."
+  finished: "&green&Fertig mit dem Speichern der Items von [%count%](yellow) Spielern!"
+  progress: "&green&[%count%](yellow) Spieler gespeichert, [%left%](yellow) verbleibend..."
   no_players: "&red&Keine Spieler gefunden!"
   failed: "&red&Fehler beim Speichern von Items für [%player%](yellow)!"

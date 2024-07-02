@@ -47,9 +47,9 @@ public class StoreAllPlayersCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-		sender.sendMessage(plugin.getLang(sender, "storeallplayers.started"));
 		ArrayDeque<OfflinePlayer> players = new ArrayDeque<>();
 		Collections.addAll(players, plugin.getServer().getOfflinePlayers());
+		sender.sendMessage(plugin.getLang(sender, "storeallplayers.started", "count", String.valueOf(players.size())));
 
 		if (players.isEmpty()) {
 			sender.sendMessage(plugin.getLang(sender, "storeallplayers.no_players"));
@@ -71,10 +71,11 @@ public class StoreAllPlayersCommand implements CommandExecutor {
 			return;
 		}
 
-		processPlayer(sender, players.poll()).thenRun(() -> processNextInQueue(sender, players, count + 1, future));
+		processPlayer(sender, players.poll(), count + 1, players.size())
+				.thenRun(() -> processNextInQueue(sender, players, count + 1, future));
 	}
 
-	private CompletableFuture<Void> processPlayer(CommandSender sender, OfflinePlayer offlinePlayer) {
+	private CompletableFuture<Void> processPlayer(CommandSender sender, OfflinePlayer offlinePlayer, int count, int left) {
 		Player player = getPlayer(offlinePlayer);
 		if (player == null) {
 			return CompletableFuture.completedFuture(null);
@@ -94,19 +95,22 @@ public class StoreAllPlayersCommand implements CommandExecutor {
 		}
 		int itemCount = items.size();
 		if (itemCount == 0) {
+			plugin.getLogger().info(count + " | " + left + " | No items for " + player.getName());
 			openInv.releasePlayer(player, plugin);
 			return CompletableFuture.completedFuture(null);
 		}
 		String playerName = player.getName();
 		return plugin.getItemStorage().storeItems(offlinePlayer.getUniqueId(), items).thenAccept(aVoid -> {
-			plugin.getLogger().info("Stored " + itemCount + " items for " + playerName);
-			sender.sendMessage(plugin.getLang(sender, "storeallplayers.stored", "player", playerName, "count", String.valueOf(itemCount)));
+			plugin.getLogger().info(count + " | " + left + " | Stored " + itemCount + " items for " + playerName);
+			if (count % 10 == 0) {
+				sender.sendMessage(plugin.getLang(sender, "storeallplayers.progress", "count", String.valueOf(count), "left", String.valueOf(left)));
+			}
 			player.getInventory().clear();
 			player.getInventory().setArmorContents(new ItemStack[4]);
 			player.getEnderChest().clear();
 			openInv.releasePlayer(player, plugin);
 		}).exceptionally(throwable -> {
-			plugin.getLogger().log(Level.SEVERE, "Failed to store items for " + playerName, throwable);
+			plugin.getLogger().log(Level.SEVERE, count + " | " + left + " | Failed to store items for " + playerName, throwable);
 			sender.sendMessage(plugin.getLang(sender, "storeallplayers.failed", "player", playerName));
 			openInv.releasePlayer(player, plugin);
 			return null;
