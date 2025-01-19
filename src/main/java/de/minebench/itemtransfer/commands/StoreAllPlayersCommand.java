@@ -59,7 +59,6 @@ public class StoreAllPlayersCommand implements CommandExecutor {
 		CompletableFuture<Integer> future = new CompletableFuture<>();
 		future.thenAccept(count -> {
 			sender.sendMessage(plugin.getLang(sender, "storeallplayers.finished", "count", String.valueOf(count)));
-			openInv.releaseAllPlayers(plugin);
 		});
 		processNextInQueue(sender, players, 0, future);
 		return true;
@@ -80,7 +79,6 @@ public class StoreAllPlayersCommand implements CommandExecutor {
 		if (player == null) {
 			return CompletableFuture.completedFuture(null);
 		}
-		openInv.retainPlayer(player, plugin);
 
 		List<ItemStack> items = new ArrayList<>();
 		for (ItemStack itemStack : player.getInventory().getContents()) {
@@ -96,7 +94,7 @@ public class StoreAllPlayersCommand implements CommandExecutor {
 		int itemCount = items.size();
 		if (itemCount == 0) {
 			plugin.getLogger().info(count + " | " + left + " | No items for " + player.getName());
-			openInv.releasePlayer(player, plugin);
+			openInv.unload(player);
 			return CompletableFuture.completedFuture(null);
 		}
 		String playerName = player.getName();
@@ -109,11 +107,11 @@ public class StoreAllPlayersCommand implements CommandExecutor {
 			player.getInventory().setArmorContents(new ItemStack[4]);
 			player.getEnderChest().clear();
 			player.saveData();
-			openInv.releasePlayer(player, plugin);
+			openInv.unload(player);
 		}).exceptionally(throwable -> {
 			plugin.getLogger().log(Level.SEVERE, count + " | " + left + " | Failed to store items for " + playerName, throwable);
 			sender.sendMessage(plugin.getLang(sender, "storeallplayers.failed", "player", playerName));
-			openInv.releasePlayer(player, plugin);
+			openInv.unload(player);
 			return null;
 		});
 
