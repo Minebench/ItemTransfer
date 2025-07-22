@@ -289,7 +289,7 @@ public final class ItemTransfer extends BukkitPlugin {
 														"data_version", String.valueOf(storedItem.dataVersion()),
 														"server_data_version", String.valueOf(serverDataVersion))
 										));
-										break;
+										continue;
 									}
 
 									ItemStack item = ItemStack.deserializeBytes(storedItem.itemData());
