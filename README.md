@@ -1,3 +1,10 @@
+> [!CAUTION]
+> ## Repository is archived as I'm leaving GitHub!
+>
+> GitHub wants me to "[embrace AI or get out](https://www.businessinsider.com/github-ceo-developers-embrace-ai-or-get-out-2025-8)". So I'm leaving.
+> 
+> Continued development will happen on Codeberg: https://codeberg.org/Minebench/ItemTransfer
+
 # ItemTransfer
 
 This is a simple plugin that allows you to transfer items between locations or servers
